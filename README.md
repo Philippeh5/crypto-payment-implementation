@@ -1,4 +1,4 @@
-# Crypto Payment Starter Kit
+# Crypto Payment Implementation
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-20.x-green?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
@@ -6,10 +6,10 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-An **educational reference implementation** of a non-custodial crypto payment gateway for EVM networks. Demonstrates core patterns: BIP-44 HD wallet address derivation, deposit watching with reorg protection, settlement crediting, and withdrawal queues.
+A **copy-paste ready, config-driven implementation** of a non-custodial crypto payment gateway for EVM networks. Drop into your project, configure `.env`, extend as needed. Core flows: BIP-44 HD wallet address derivation, deposit watching with reorg protection, settlement crediting, withdrawal queues.
 
-> ⚠️ **Starter Kit — Not Production Hardened**
-> This is a learning reference. Production use requires: HSM/key isolation, comprehensive monitoring, rate limiting, audit trails, compliance review, and penetration testing.
+> ⚠️ **Implementation Reference — Not Production Hardened**
+> Production use requires: HSM/key isolation, comprehensive monitoring, rate limiting, audit trails, compliance review, and penetration testing.
 
 ---
 
@@ -100,8 +100,8 @@ crypto-payment-starter-kit/
 
 ### 2. Install & Configure
 ```bash
-git clone https://github.com/Philippeh5/crypto-payment-starter-kit.git
-cd crypto-payment-starter-kit
+git clone https://github.com/Philippeh5/crypto-payment-implementation.git
+cd crypto-payment-implementation
 
 npm install
 cp .env.example .env
@@ -271,7 +271,7 @@ Issues and PRs welcome for:
 - Documentation clarity
 - Bug fixes
 
-**Not accepted**: Production hardening PRs (this is intentionally a *starter kit*), feature requests for specific business logic.
+**Not accepted**: Production hardening PRs (this is intentionally an *implementation reference*), feature requests for specific business logic.
 
 ---
 
