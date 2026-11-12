@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: payment-starter-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-payment_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-payment_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-payment_gateway}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./src/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-payment_user} -d ${POSTGRES_DB:-payment_gateway}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    container_name: payment-starter-app
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-payment_user}:${POSTGRES_PASSWORD:-payment_pass}@postgres:5432/${POSTGRES_DB:-payment_gateway}
+      - RPC_URL=${RPC_URL}
+      - RPC_FALLBACK_URLS=${RPC_FALLBACK_URLS}
+      - CHAIN_ID=${CHAIN_ID}
+      - USDC_CONTRACT_ADDRESS=${USDC_CONTRACT_ADDRESS}
+      - USDC_DECIMALS=${USDC_DECIMALS}
+      - MASTER_XPUB=${MASTER_XPUB}
+      - HOT_WALLET_PRIVATE_KEY=${HOT_WALLET_PRIVATE_KEY}
+      - REQUIRED_CONFIRMATIONS=${REQUIRED_CONFIRMATIONS}
+      - REORG_CHECK_DEPTH=${REORG_CHECK_DEPTH}
+      - AUTO_APPROVE_THRESHOLD_USDC=${AUTO_APPROVE_THRESHOLD_USDC}
+      - MAX_WITHDRAWAL_USDC=${MAX_WITHDRAWAL_USDC}
+      - WITHDRAWAL_COOLDOWN_MS=${WITHDRAWAL_COOLDOWN_MS}
+      - PORT=${PORT:-3000}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - NODE_ENV=${NODE_ENV:-production}
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
